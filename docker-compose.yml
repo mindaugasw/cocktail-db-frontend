@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  builder:
+    container_name: cocktail-db-frontend-builder
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cocktail-db-frontend-img
+    volumes:
+      - .:/home/node/app
