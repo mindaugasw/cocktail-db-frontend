@@ -1,4 +1,5 @@
 import databaseJson from '@/assets/output.prod.min.json';
+import { sortByKey } from '@/helpers/ObjectHelper';
 
 type Ingredient = {
     text: string;
@@ -21,11 +22,11 @@ type Recipe = {
     image: string;
 }
 
-let filters: {[key: string]: string[]};
+let filters: {[category: string]: {[ingredient: string]: number}};
 let filtersInitialized = false;
 
 function initializeFilters(): void {
-    const filtersData: {[key: string]: {[key: string]: true}} = {};
+    const filtersData: typeof filters = {};
     const missingDataIngredients = [];
 
     for (const [, recipe] of Object.entries<Recipe>(databaseJson)) {
@@ -37,7 +38,8 @@ function initializeFilters(): void {
             }
 
             filtersData[ingredient.category] ??= {};
-            filtersData[ingredient.category][ingredient.primaryAlias] = true;
+            filtersData[ingredient.category][ingredient.primaryAlias] ??= 0;
+            filtersData[ingredient.category][ingredient.primaryAlias]++;
         }
     }
 
@@ -50,8 +52,8 @@ function initializeFilters(): void {
 
     const filtersSorted: typeof filters = {};
 
-    for (const [categoryName, ingredients] of Object.entries<{[key: string]: true}>(filtersData)) {
-        filtersSorted[categoryName] = Object.keys(ingredients).sort();
+    for (const [categoryName, ingredients] of Object.entries(filtersData)) {
+        filtersSorted[categoryName] = sortByKey(ingredients);
     }
 
     filters = filtersSorted;
@@ -64,25 +66,6 @@ export function getFilters(): typeof filters {
     }
 
     return filters;
-}
-
-// TODO merge into the main method
-export function getFiltersDebug(): {[category: string]: {[ingredient: string]: number}} {
-    if (!filtersInitialized) {
-        initializeFilters();
-    }
-
-    const filtersData = {};
-
-    for (const [recipeName, recipe] of Object.entries(databaseJson)) {
-        for (const ingredient of recipe.ingredients) {
-            filtersData[ingredient.category] ??= {};
-            filtersData[ingredient.category][ingredient.primaryAlias] ??= 0;
-            filtersData[ingredient.category][ingredient.primaryAlias]++;
-        }
-    }
-
-    return filtersData;
 }
 
 export function getDatabaseLength(): number {

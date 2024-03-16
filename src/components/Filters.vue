@@ -5,34 +5,15 @@ const props = defineProps({
     foo: String,
 });
 
-// TODO merge into one
-// const filters = Database.getFilters();
-const filtersDebug = Database.getFiltersDebug();
+const filters = Database.getFilters();
 </script>
 
 <template>
 My filters here ({{ props.foo }})
 
-<!--<ul>
-    <li
-        v-for="(ingredients, category) in filters"
-        :key="category"
-    >
-        {{ category }}
-        <ul>
-            <li
-                v-for="ingredient in ingredients"
-                :key="ingredient"
-            >
-                {{ ingredient }}
-            </li>
-        </ul>
-    </li>
-</ul>-->
-
 <ul>
     <li
-        v-for="(ingredients, category) in filtersDebug"
+        v-for="(ingredients, category) in filters"
         :key="category"
     >
         {{ category }}
