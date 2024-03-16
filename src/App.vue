@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import Filters from '@/components/Filters.vue';
 import * as Database from '@/services/Database'
+import BreakpointIndicator from "@/components/BreakpointIndicator.vue";
 
 const count = ref(1);
 
@@ -33,6 +34,8 @@ onMounted(async () => {
 
         <Filters foo="bar"/>
     </div>
+
+    <BreakpointIndicator/>
 </template>
 
 <style scoped>
