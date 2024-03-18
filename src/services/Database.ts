@@ -22,7 +22,7 @@ type Recipe = {
     image: string;
 }
 
-let filters: {[category: string]: {[ingredient: string]: number}};
+let filters: {[category: string]: {[ingredient: string]: {slug: string, count: number}}};
 let filtersInitialized = false;
 
 function initializeFilters(): void {
@@ -38,8 +38,11 @@ function initializeFilters(): void {
             }
 
             filtersData[ingredient.category] ??= {};
-            filtersData[ingredient.category][ingredient.primaryAlias] ??= 0;
-            filtersData[ingredient.category][ingredient.primaryAlias]++;
+            filtersData[ingredient.category][ingredient.primaryAlias] ??= {
+                slug: ingredient.primaryAlias.replace(' ', '_'),
+                count: 0,
+            }
+            filtersData[ingredient.category][ingredient.primaryAlias].count++;
         }
     }
 
