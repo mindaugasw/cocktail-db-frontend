@@ -71,6 +71,6 @@ export function getFilters(): typeof filters {
     return filters;
 }
 
-export function getDatabaseLength(): number {
-    return Object.keys(databaseJson).length;
+export function getRecipes(): {[name: string]: Recipe} {
+    return databaseJson;
 }

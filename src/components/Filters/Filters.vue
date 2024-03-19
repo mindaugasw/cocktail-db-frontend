@@ -83,16 +83,17 @@ validateAllFiltersAreUsed();
 }
 
 #filters-container {
-    max-height: 600px;
+    max-height: 500px;
     overflow-y: scroll;
     padding: 15px;
     border-left: var(--filters-border);
     border-right: var(--filters-border);
     border-bottom: var(--filters-border);
     border-radius: 0 0 5px 25px;
+    margin-bottom: 2.5em;
 }
 
 .filters-category-container {
-    margin-bottom: 1.5em;
+    margin-bottom: 1.2em;
 }
 </style>

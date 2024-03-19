@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Filters from '@/components/Filters/Filters.vue';
+import RecipeList from '@/components/RecipeList/RecipeList.vue';
 import BreakpointIndicator from "@/components/BreakpointIndicator.vue";
 </script>
 
@@ -11,6 +12,8 @@ import BreakpointIndicator from "@/components/BreakpointIndicator.vue";
     </h1>
 
     <Filters/>
+
+    <RecipeList/>
 </div>
 
 <BreakpointIndicator/>
