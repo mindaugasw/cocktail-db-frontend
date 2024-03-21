@@ -2,6 +2,8 @@
 import Filters from '@/components/Filters/Filters.vue';
 import RecipeList from '@/components/RecipeList/RecipeList.vue';
 import BreakpointIndicator from "@/components/BreakpointIndicator.vue";
+
+const isDevMode = import.meta.env.DEV;
 </script>
 
 <template>
@@ -16,7 +18,7 @@ import BreakpointIndicator from "@/components/BreakpointIndicator.vue";
     <RecipeList/>
 </div>
 
-<BreakpointIndicator/>
+<BreakpointIndicator v-if="isDevMode"/>
 </template>
 
 <style scoped>

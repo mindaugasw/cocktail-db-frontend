@@ -9,4 +9,5 @@ Commands inside the container:
 - `npm install`
 - `npm run dev` - start dev server @  http://localhost:5173/
 - `npm run build` - build for production
+- `npm run build && npm run preview` - start prod server @ http://localhost:4173/
 - `npm run type-check && npm run lint`
