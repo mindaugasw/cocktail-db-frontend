@@ -16,11 +16,7 @@ const recipes = Database.getRecipes();
             :key="slug"
             class="col"
         >
-            <a
-                href="#"
-                class="card-link"
-                @click.prevent="console.log(`Clicked: ${recipe.name}`)"
-            >
+            <RouterLink :to="`/recipe/${slug}`" class="card-link">
                 <div class="card h-100">
                     <img
                         :src="`/images/recipe/${recipe.image}`"
@@ -34,7 +30,7 @@ const recipes = Database.getRecipes();
                         <p class="card-text">{{ recipe.description }}</p>
                     </div>
                 </div>
-            </a>
+            </RouterLink>
         </div>
     </div>
 </details>

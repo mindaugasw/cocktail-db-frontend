@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import FontAwesomeIcon from '@/components/FontAwesomeIcon';
 // import App from './AppExample.vue';
 import App from './App.vue';
-import router from './router/indexExample';
+import router from '@/router';
 
 const app = createApp(App);
 app.component('fa-icon', FontAwesomeIcon);

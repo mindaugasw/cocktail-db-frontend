@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Filters from '@/components/Filters/Filters.vue';
-import RecipeList from '@/components/RecipeList/RecipeList.vue';
 import BreakpointIndicator from "@/components/BreakpointIndicator.vue";
 
 const isDevMode = import.meta.env.DEV;
@@ -13,9 +11,7 @@ const isDevMode = import.meta.env.DEV;
         Kokteilių receptai
     </h1>
 
-    <Filters/>
-
-    <RecipeList/>
+    <RouterView/>
 </div>
 
 <BreakpointIndicator v-if="isDevMode"/>
