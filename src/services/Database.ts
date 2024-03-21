@@ -13,7 +13,6 @@ type Ingredient = {
 
 type Recipe = {
     name: string;
-    nameSlug: string;
     datePublishedUnix: number;
     primaryCategorySlug: string;
     description: string | null;
@@ -29,10 +28,10 @@ function initializeFilters(): void {
     const filtersData: typeof filters = {};
     const missingDataIngredients = [];
 
-    for (const [, recipe] of Object.entries<Recipe>(databaseJson)) {
+    for (const [nameSlug, recipe] of Object.entries<Recipe>(databaseJson)) {
         for (const ingredient of recipe.ingredients) {
             if (ingredient.category === undefined || ingredient.primaryAlias === undefined) {
-                missingDataIngredients.push(`${ingredient.text} @ ${recipe.nameSlug}`);
+                missingDataIngredients.push(`${ingredient.text} @ ${nameSlug}`);
 
                 continue;
             }
