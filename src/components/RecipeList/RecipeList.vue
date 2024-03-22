@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import RecipeModal from '@/components/Recipe/RecipeModal.vue';
 import * as Database from '@/services/Database';
 
 const recipes = Database.getRecipes();
+const recipeModalSlug = ref<string | null>(null)
 </script>
 
 <template>
@@ -10,13 +13,19 @@ const recipes = Database.getRecipes();
         <h3>Visi receptai ({{ Object.keys(recipes).length }})</h3>
     </summary>
 
-    <div class="row g-3 g-sm-4 row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6">
+    <div class="row g-3 g-sm-4 row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
         <div
             v-for="(recipe, slug) in recipes"
             :key="slug"
             class="col"
         >
-            <RouterLink :to="`/recipe/${slug}`" class="card-link">
+            <RouterLink
+                :to="{name: 'recipe', params: {nameSlug: slug}}"
+                class="card-link"
+                @click.prevent="recipeModalSlug = slug"
+                data-bs-toggle="modal"
+                data-bs-target="#recipeModal"
+            >
                 <div class="card h-100">
                     <img
                         :src="`/images/recipe/${recipe.image}`"
@@ -34,6 +43,12 @@ const recipes = Database.getRecipes();
         </div>
     </div>
 </details>
+
+<RecipeModal
+    modalId="recipeModal"
+    :recipeNameSlug="recipeModalSlug"
+    :recipe="recipeModalSlug ? recipes[recipeModalSlug] : null"
+/>
 </template>
 
 <style scoped>

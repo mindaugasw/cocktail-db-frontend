@@ -3,9 +3,15 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+    faArrowUpRightFromSquare,
+    faCaretLeft,
     faMartiniGlassCitrus,
 } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faMartiniGlassCitrus);
+library.add(
+    faArrowUpRightFromSquare,
+    faCaretLeft,
+    faMartiniGlassCitrus,
+);
 
 export default FontAwesomeIcon;

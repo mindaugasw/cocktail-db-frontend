@@ -7,7 +7,7 @@ const isDevMode = import.meta.env.DEV;
 <template>
 <div class="container">
     <h1>
-        <fa-icon icon="martini-glass-citrus"/>
+        <FAIcon icon="martini-glass-citrus"/>
         Kokteilių receptai
     </h1>
 

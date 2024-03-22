@@ -11,7 +11,7 @@ type Ingredient = {
     category: string;
 }
 
-type Recipe = {
+export type Recipe = {
     name: string;
     datePublishedUnix: number;
     primaryCategorySlug: string;
