@@ -7,7 +7,6 @@ import { toTitleCase } from '@/helpers/StringHelper';
 
 const route = useRoute();
 const router = useRouter();
-
 const slug = route.params.nameSlug as string;
 const recipe = Database.getRecipes()[slug];
 
@@ -21,18 +20,25 @@ if (recipe === undefined) {
 </script>
 
 <template>
+<RouterLink :to="{name: 'home'}" class="d-inline-block mb-4">
+    <FAIcon icon="fa-caret-left"/> Į pradžią
+</RouterLink>
+
 <div v-if="recipe">
-    <RouterLink :to="{name: 'home'}">
-        <FAIcon icon="fa-caret-left"/> Į pradžią
-    </RouterLink>
+    <h2 class="mb-4">{{ recipe.name }}</h2>
 
-    @ RecipeView.vue
-    <br/><br/>
-
-    {{ slug }}
-    <br/><br/>
-
-    <RecipeContent :recipe="recipe"/>
-    <br/><br/>
+    <RecipeContent
+        v-if="recipe"
+        :recipe="recipe"
+        :recipeNameSlug="slug"
+        :insideModal="false"
+        class="recipe-content"
+    />
 </div>
 </template>
+
+<style scoped>
+.recipe-content {
+    margin-bottom: 7em;
+}
+</style>

@@ -22,7 +22,7 @@ const recipeModalSlug = ref<string | null>(null)
             <RouterLink
                 :to="{name: 'recipe', params: {nameSlug: slug}}"
                 class="card-link"
-                @click.prevent="recipeModalSlug = slug"
+                @click.prevent="recipeModalSlug = slug as string"
                 data-bs-toggle="modal"
                 data-bs-target="#recipeModal"
             >

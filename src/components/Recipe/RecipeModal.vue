@@ -16,18 +16,17 @@ const fullPageUrl = computed(() => router.resolve({name: 'recipe', params: {name
 function openRecipeFullPage() {
     const closeButton = document.getElementsByClassName('btn-close')[0] as HTMLButtonElement;
     closeButton.click();
-
     router.push(fullPageUrl.value);
+    window.scrollTo(0, 0);
 }
 </script>
 
 <template>
-<!-- TODO test/implement modal with long content (scrollable) -->
 <div
     :id="modalId"
     class="modal fade"
 >
-    <div class="modal-dialog  modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4
@@ -55,8 +54,10 @@ function openRecipeFullPage() {
 
             <div class="modal-body">
                 <RecipeContent
-                    v-if="recipe"
+                    v-if="recipe && recipeNameSlug"
                     :recipe="recipe"
+                    :recipeNameSlug="recipeNameSlug"
+                    :insideModal="true"
                 />
             </div>
 

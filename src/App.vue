@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import BreakpointIndicator from "@/components/BreakpointIndicator.vue";
-
-const isDevMode = import.meta.env.DEV;
+import { isDevMode } from '@/helpers/EnvironmentHelper';
 </script>
 
 <template>
@@ -14,7 +13,7 @@ const isDevMode = import.meta.env.DEV;
     <RouterView/>
 </div>
 
-<BreakpointIndicator v-if="isDevMode"/>
+<BreakpointIndicator v-if="isDevMode()"/>
 </template>
 
 <style scoped>
