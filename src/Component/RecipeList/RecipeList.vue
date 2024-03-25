@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import RecipeModal from '@/components/Recipe/RecipeModal.vue';
-import * as Database from '@/services/Database';
+import RecipeModal from '@/Component/Recipe/RecipeModal.vue';
+import * as Database from '@/Service/Database';
 
 const recipes = Database.getRecipes();
 const recipeModalSlug = ref<string | null>(null)

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
-import RecipeView from '@/views/RecipeView.vue';
-import { setTitle } from '@/helpers/DocumentHelper';
+import HomeView from '@/View/HomeView.vue';
+import RecipeView from '@/View/RecipeView.vue';
+import { setTitle } from '@/Helper/DocumentHelper';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BreakpointIndicator from "@/components/BreakpointIndicator.vue";
-import { isDevMode } from '@/helpers/EnvironmentHelper';
+import BreakpointIndicator from "@/Component/BreakpointIndicator.vue";
+import { isDevMode } from '@/Helper/EnvironmentHelper';
 </script>
 
 <template>

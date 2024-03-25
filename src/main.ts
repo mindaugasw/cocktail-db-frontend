@@ -1,10 +1,10 @@
-import './assets/main.css'
+import '@/Asset/main.css'
 import { createApp } from 'vue';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import FontAwesomeIcon from '@/components/FontAwesomeIcon';
+import FontAwesomeIcon from '@/Service/FontAwesomeIcon';
 import App from './App.vue';
-import router from '@/router';
+import router from '@/Service/Router';
 
 const app = createApp(App);
 app.component('FAIcon', FontAwesomeIcon);

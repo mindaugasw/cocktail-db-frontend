@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import * as Database from '@/services/Database';
-import RecipeContent from '@/components/Recipe/RecipeContent.vue';
-import { setTitle } from '@/helpers/DocumentHelper';
-import { toTitleCase } from '@/helpers/StringHelper';
+import * as Database from '@/Service/Database';
+import RecipeContent from '@/Component/Recipe/RecipeContent.vue';
+import { setTitle } from '@/Helper/DocumentHelper';
+import { toTitleCase } from '@/Helper/StringHelper';
 
 const route = useRoute();
 const router = useRouter();

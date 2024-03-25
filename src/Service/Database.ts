@@ -1,5 +1,5 @@
-import databaseJson from '@/assets/output.prod.min.json';
-import { sortByKey } from '@/helpers/ObjectHelper';
+import databaseJson from '@/Asset/output.prod.min.json';
+import { sortByKey } from '@/Helper/ObjectHelper';
 
 type Ingredient = {
     text: string;

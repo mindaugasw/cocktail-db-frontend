@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Recipe } from '@/services/Database';
-import { isDevMode } from '@/helpers/EnvironmentHelper';
+import type { Recipe } from '@/Service/Database';
+import { isDevMode } from '@/Helper/EnvironmentHelper';
 
 const props = defineProps<{
     recipe: Recipe,

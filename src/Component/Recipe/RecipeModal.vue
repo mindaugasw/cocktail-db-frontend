@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import RecipeContent from '@/components/Recipe/RecipeContent.vue';
+import RecipeContent from '@/Component/Recipe/RecipeContent.vue';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
-import type { Recipe } from '@/services/Database';
+import type { Recipe } from '@/Service/Database';
 
 const props = defineProps<{
     modalId: string,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as Database from '@/services/Database';
+import * as Database from '@/Service/Database';
 import FiltersCategory from './FiltersCategory.vue';
 
 const filters = Database.getFilters();
