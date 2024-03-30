@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import * as Database from '@/Service/Database';
 import FiltersCategory from './FiltersCategory.vue';
+import { getState, resetState, persistState } from '@/Service/FilterManager';
 
 const filters = Database.getFilters();
 const filtersGrouping = [
@@ -9,6 +11,9 @@ const filtersGrouping = [
     ['Kiti gėrimai'],
     ['Dažniausi ingridientai', 'Kiti ingridientai'],
 ];
+const filtersState = ref(getState());
+
+validateAllFiltersAreUsed();
 
 // Since categories are grouped manually by name, we additionally validate that none of them were missed
 function validateAllFiltersAreUsed(): void {
@@ -22,7 +27,17 @@ function validateAllFiltersAreUsed(): void {
     }
 }
 
-validateAllFiltersAreUsed();
+function onCategoryToggle(category: string, newStateOpen: boolean): void {
+    filtersState.value['categoriesOpen'][category] = newStateOpen;
+
+    persistState();
+}
+
+function resetFilters() {
+    filtersState.value = resetState();
+
+    persistState();
+}
 </script>
 
 <template>
@@ -37,11 +52,24 @@ validateAllFiltersAreUsed();
         <h3 class="d-none d-sm-flex">Filtrai</h3>
 
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="filters-enabled-toggle" checked>
-            <label class="form-check-label" for="filters-enabled-toggle">Filtrai įjungti</label>
+            <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="filters-enabled-toggle"
+                v-model="filtersState.enabled"
+                @change="persistState"
+            >
+            <label class="form-check-label" for="filters-enabled-toggle">
+                Filtrai įjungti
+            </label>
         </div>
 
-        <button type="button" class="btn btn-outline-danger btn-sm ms-auto">
+        <button
+            type="button"
+            class="btn btn-outline-danger btn-sm ms-auto"
+            @click="resetFilters"
+        >
             Išvalyti filtrus
         </button>
     </div>
@@ -59,7 +87,14 @@ validateAllFiltersAreUsed();
                 :key="category"
                 class="filters-category-container"
             >
-                <FiltersCategory :categoryName="category" :ingredients="filters[category]"/>
+                <FiltersCategory
+                    :categoryName="category"
+                    :ingredients="filters[category]"
+                    :isOpen="filtersState['categoriesOpen'][category] ?? false"
+                    :filtersState="filtersState"
+                    @categoryToggle="(newStateOpen) => onCategoryToggle(category, newStateOpen)"
+                    @filtersChange="persistState"
+                />
             </div>
         </div>
     </div>

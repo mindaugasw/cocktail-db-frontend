@@ -19,5 +19,8 @@ export default defineConfig({
     },
     server: {
         host: true
-    }
+    },
+    define: {
+        __BUILD_VERSION__: Date.now().toString(),
+    },
 })
