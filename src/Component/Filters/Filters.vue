@@ -29,13 +29,11 @@ function validateAllFiltersAreUsed(): void {
 
 function onCategoryToggle(category: string, newStateOpen: boolean): void {
     filtersState.value['categoriesOpen'][category] = newStateOpen;
-
     persistState();
 }
 
 function resetFilters() {
     filtersState.value = resetState();
-
     persistState();
 }
 </script>
