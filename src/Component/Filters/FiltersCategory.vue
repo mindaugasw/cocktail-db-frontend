@@ -10,7 +10,7 @@ defineProps<{
         },
     },
     isOpen: boolean,
-    filtersState: State,
+    filterState: State,
 }>();
 
 defineEmits<{
@@ -37,8 +37,8 @@ defineEmits<{
             class="form-check-input"
             type="checkbox"
             :id="`filter-${slug}`"
-            :disabled="!filtersState.enabled"
-            v-model="filtersState.ingredients[name]"
+            :disabled="!filterState.enabled"
+            v-model="filterState.ingredients[name]"
             @change="$emit('filtersChange')"
         >
         <label class="form-check-label" :for="`filter-${slug}`">

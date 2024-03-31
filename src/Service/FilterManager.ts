@@ -1,4 +1,5 @@
 import { getBuildVersion } from '@/Helper/EnvironmentHelper';
+import { ref } from 'vue';
 
 export type State = {
     enabled: boolean,
@@ -8,7 +9,6 @@ export type State = {
 }
 
 const storageKey = 'app.filters_state';
-let currentState: State;
 
 function getDefaultState(): State {
     return {
@@ -35,35 +35,31 @@ function getStoredState(): State | null {
 
     if (stateData.version === 'dev' || stateData.version === getBuildVersion()) {
         return stateData as State;
-    } else {
-        localStorage.removeItem(storageKey);
     }
+
+    localStorage.removeItem(storageKey);
 
     return null;
 }
 
-export function getState(): State {
-    if (typeof currentState !== 'undefined') {
-        return currentState;
-    }
-
+function getState(): State {
     let state = getStoredState();
 
     if (state === null) {
         state = getDefaultState();
     }
 
-    currentState = state;
-
     return state;
 }
 
 export function persistState(): void {
-    localStorage.setItem(storageKey, JSON.stringify(currentState));
+    localStorage.setItem(storageKey, JSON.stringify(filterState.value));
 }
 
-export function resetState(): State {
-    currentState = getDefaultState();
-
-    return currentState;
+export function resetState(): void {
+    filterState.value = getDefaultState();
 }
+
+// TODO next: make existing code work with import {filterState} instead of importint {getState()}
+// And then start implementing actual filtering
+export const filterState = ref<State>(getState());

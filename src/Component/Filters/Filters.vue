@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import * as Database from '@/Service/Database';
 import FiltersCategory from './FiltersCategory.vue';
-import { getState, resetState, persistState } from '@/Service/FilterManager';
+import { filterState, resetState, persistState } from '@/Service/FilterManager';
 
 const filters = Database.getFilters();
 const filtersGrouping = [
@@ -11,7 +10,6 @@ const filtersGrouping = [
     ['Kiti gėrimai'],
     ['Dažniausi ingridientai', 'Kiti ingridientai'],
 ];
-const filtersState = ref(getState());
 
 validateAllFiltersAreUsed();
 
@@ -28,12 +26,12 @@ function validateAllFiltersAreUsed(): void {
 }
 
 function onCategoryToggle(category: string, newStateOpen: boolean): void {
-    filtersState.value['categoriesOpen'][category] = newStateOpen;
+    filterState.value['categoriesOpen'][category] = newStateOpen;
     persistState();
 }
 
 function resetFilters() {
-    filtersState.value = resetState();
+    resetState();
     persistState();
 }
 </script>
@@ -55,7 +53,7 @@ function resetFilters() {
                 type="checkbox"
                 role="switch"
                 id="filters-enabled-toggle"
-                v-model="filtersState.enabled"
+                v-model="filterState.enabled"
                 @change="persistState"
             >
             <label class="form-check-label" for="filters-enabled-toggle">
@@ -88,8 +86,8 @@ function resetFilters() {
                 <FiltersCategory
                     :categoryName="category"
                     :ingredients="filters[category]"
-                    :isOpen="filtersState['categoriesOpen'][category] ?? false"
-                    :filtersState="filtersState"
+                    :isOpen="filterState['categoriesOpen'][category] ?? false"
+                    :filterState="filterState"
                     @categoryToggle="(newStateOpen) => onCategoryToggle(category, newStateOpen)"
                     @filtersChange="persistState"
                 />
@@ -116,7 +114,6 @@ function resetFilters() {
 }
 
 #filters-container {
-    max-height: 500px;
     overflow-y: scroll;
     padding: 15px;
     border-left: var(--filters-border);
@@ -124,6 +121,18 @@ function resetFilters() {
     border-bottom: var(--filters-border);
     border-radius: 0 0 5px 25px;
     margin-bottom: 2.5em;
+}
+
+@media (max-width: 575px) {
+    #filters-container {
+        max-height: 400px;
+    }
+}
+
+@media (min-width: 576px) {
+    #filters-container {
+        max-height: 500px;
+    }
 }
 
 .filters-category-container {
