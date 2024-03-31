@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import Filters from "@/Component/Filters/Filters.vue";
-import RecipeList from '@/Component/RecipeList/RecipeList.vue';
+import RecipeListGroup from '@/Component/RecipeList/RecipeListGroup.vue';
 </script>
 
 <template>
     <Filters/>
-    <RecipeList/>
+    <RecipeListGroup/>
 </template>
