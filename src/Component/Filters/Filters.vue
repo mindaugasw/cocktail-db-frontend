@@ -5,7 +5,7 @@ import { filterState, resetState, persistState } from '@/Service/FilterManager';
 
 const filters = Database.getFilters();
 const filtersGrouping = [
-    ['Alkoholis', 'Kitas alkoholis'],
+    ['Kategorija', 'Alkoholis', 'Kitas alkoholis'],
     ['Sirupas / likeris', 'Kiti sirupai / likeriai'],
     ['Kiti gėrimai'],
     ['Dažniausi ingridientai', 'Kiti ingridientai'],
@@ -131,7 +131,7 @@ function resetFilters() {
 
 @media (min-width: 576px) {
     #filters-container {
-        max-height: 500px;
+        max-height: 450px;
     }
 }
 

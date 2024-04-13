@@ -14,6 +14,7 @@ function getDefaultState(): State {
     return {
         enabled: true,
         categoriesOpen: {
+            'Kategorija': true,
             'Alkoholis': true,
             'Sirupas / likeris': true,
             'Kiti gėrimai': true,

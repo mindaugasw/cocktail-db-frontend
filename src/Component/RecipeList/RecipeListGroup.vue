@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import RecipeModal from '@/Component/Recipe/RecipeModal.vue';
-import * as Database from '@/Service/Database';
+import type { RecipeList } from '@/Service/Database';
+import { computed } from 'vue';
 
-const recipes = Database.getRecipes();
-const recipeModalSlug = ref<string | null>(null)
+const props = defineProps<{
+    title: string,
+    recipes: RecipeList,
+    isOpen: boolean,
+}>();
+
+defineEmits<{
+    openModal: [recipeNameSlug: string],
+}>();
+
+const recipeCount = computed(() => Object.keys(props.recipes).length);
 </script>
 
 <template>
-<details open class="mb-5">
+<details
+    class="mb-1"
+    :open="isOpen ? recipeCount !== 0 : false"
+>
     <summary class="mb-3">
-        <h3>Visi receptai ({{ Object.keys(recipes).length }})</h3>
+        <h3>{{ title }} ({{ recipeCount }})</h3>
     </summary>
 
-    <div class="row g-3 g-sm-4 row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+    <div class="mb-5 row g-3 g-sm-4 row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
         <div
             v-for="(recipe, slug) in recipes"
             :key="slug"
@@ -22,7 +33,7 @@ const recipeModalSlug = ref<string | null>(null)
             <RouterLink
                 :to="{name: 'recipe', params: {nameSlug: slug}}"
                 class="card-link"
-                @click.prevent="recipeModalSlug = slug as string"
+                @click.prevent="$emit('openModal', slug)"
                 data-bs-toggle="modal"
                 data-bs-target="#recipeModal"
             >
@@ -43,12 +54,6 @@ const recipeModalSlug = ref<string | null>(null)
         </div>
     </div>
 </details>
-
-<RecipeModal
-    modalId="recipeModal"
-    :recipeNameSlug="recipeModalSlug"
-    :recipe="recipeModalSlug ? recipes[recipeModalSlug] : null"
-/>
 </template>
 
 <style scoped>
@@ -83,5 +88,24 @@ summary > h3 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+}
+
+/*
+ * Remove details-summary expand/collapse icon and replace with a custom one.
+ * Because default one breaks-line in an ugly way on too narrow screen.
+ * Source: https://stackoverflow.com/a/56758842/4110469
+ */
+summary::before {
+    content: '► ';
+    margin-right: 5px;
+}
+
+details[open] summary::before {
+    content: '▼ ';
+}
+
+summary {
+    list-style: none;
+    display: inline-flex;
 }
 </style>
