@@ -44,11 +44,11 @@ const recipesFiltered = computed(() => {
 
     return Object.keys(recipes)
         .filter(recipeSlug => {
-            if (!('flag' in recipes[recipeSlug])) {
+            if (recipes[recipeSlug].flag === null) {
                 return flagsToFilterBy.length === 0;
             }
 
-            if ('flag' in recipes[recipeSlug] && flagsToFilterBy.length === 0) {
+            if (flagsToFilterBy.length === 0) {
                 return false;
             }
 

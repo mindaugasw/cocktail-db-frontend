@@ -9,6 +9,7 @@ type Ingredient = {
     /** A shop link for all instances of this ingredient, applicable for all recipes */
     primaryAliasLink?: string,
     category: string,
+    nonFilterable: boolean,
 }
 
 export type Recipe = {
@@ -20,7 +21,7 @@ export type Recipe = {
     missingIngredients?: Ingredient[],
     steps: string[],
     image: string,
-    flag?: string,
+    flag: string | null,
 }
 
 export type RecipeList = {[name: string]: Recipe};
@@ -90,7 +91,7 @@ function buildFlagFilterList(): FilterList {
     };
 
     for (const [, recipe] of Object.entries<Recipe>(databaseJson)) {
-        if ('flag' in recipe) {
+        if (recipe.flag) {
             filtersData.Kategorija[recipe.flag] ??= {
                 slug: recipe.flag.replace(' ', '_'),
                 count: 0,
