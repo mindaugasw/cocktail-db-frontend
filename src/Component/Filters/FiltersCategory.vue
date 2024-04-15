@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import type { State } from '@/Service/FilterManager'
+import type { FilterCategoryList } from '@/Service/Database';
 
 defineProps<{
     categoryName: string,
-    ingredients: {
-        [name: string]: {
-            slug: string,
-            count: number,
-        },
-    },
+    ingredients: FilterCategoryList,
     isOpen: boolean,
     filterState: State,
 }>();
@@ -30,19 +26,19 @@ defineEmits<{
 
     <div
         class="form-check"
-        v-for="({slug, count}, name) in ingredients"
-        :key="slug"
+        v-for="(ingredient, name) in ingredients"
+        :key="ingredient.slug"
     >
         <input
             class="form-check-input"
             type="checkbox"
-            :id="`filter-${slug}`"
+            :id="`filter-${ingredient.slug}`"
             :disabled="!filterState.enabled"
             v-model="filterState.ingredients[name]"
             @change="$emit('filtersChange')"
         >
-        <label class="form-check-label" :for="`filter-${slug}`">
-            {{ name }} ({{ count }})
+        <label class="form-check-label" :for="`filter-${ingredient.slug}`">
+            {{ name }} ({{ ingredient.count }})
         </label>
     </div>
 </details>

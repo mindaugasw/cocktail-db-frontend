@@ -4,7 +4,7 @@ import * as Database from '@/Service/Database';
 import { filterState } from '@/Service/FilterManager';
 import RecipeListGroup from '@/Component/RecipeList/RecipeListGroup.vue';
 import RecipeModal from '@/Component/Recipe/RecipeModal.vue';
-import type { RecipeList } from '@/Service/Database';
+import type { Recipe, RecipeList } from '@/Service/Database';
 
 const filters = Database.getFilters();
 const recipes = Database.getRecipes();
@@ -42,6 +42,10 @@ const recipesFiltered = computed(() => {
         }
     }
 
+    return filterRecipesByFlag(recipes, flagsToFilterBy);
+});
+
+function filterRecipesByFlag(recipes: RecipeList, flagsToFilterBy: string[]): RecipeList {
     return Object.keys(recipes)
         .filter(recipeSlug => {
             if (recipes[recipeSlug].flag === null) {
@@ -60,15 +64,15 @@ const recipesFiltered = computed(() => {
 
             return true;
         })
-        .reduce((newList, recipeSlug) => {
+        .reduce((newList: RecipeList, recipeSlug) => {
             newList[recipeSlug] = recipes[recipeSlug];
 
             return newList;
         }, {}) as RecipeList;
-});
+}
 
 const recipeGroups = computed(() => {
-    if (!filterActive) {
+    if (!filterActive.value) {
         return false;
     }
 
@@ -77,19 +81,13 @@ const recipeGroups = computed(() => {
     // const listNeedAllSelected: RecipeList = {}; // TODO implement list of recipes that need all selected ingredients
 
     for (const [nameSlug, recipe] of Object.entries(recipesFiltered.value)) {
-        recipe.missingIngredients = [];
-
-        for (const ingredient of recipe.ingredients) {
-            if (!(filterState.value.ingredients[ingredient.primaryAlias] ?? false)) {
-                recipe.missingIngredients.push(ingredient);
-            }
-        }
+        recipe.missingIngredients = getRecipeMissingIngredients(recipe);
 
         if (recipe.missingIngredients.length === 0) {
             listHaveAllIngredients[nameSlug] = recipe;
         } else if (
             recipe.missingIngredients.length <= 2
-            && recipe.missingIngredients.length !== recipe.ingredients.length
+            && recipe.missingIngredients.length !== recipe.filterableIngredientCount
         ) {
             listNeedAFewExtra[nameSlug] = recipe;
         }
@@ -100,6 +98,19 @@ const recipeGroups = computed(() => {
         'needAFewExtra': listNeedAFewExtra,
     };
 });
+
+function getRecipeMissingIngredients(recipe: Recipe): string[] {
+    const missingIngredients = [];
+    const filterableIngredients = Object.keys(recipe.filterableIngredientAliases ?? {});
+
+    for (const primaryAlias of filterableIngredients) {
+        if (!(filterState.value.ingredients[primaryAlias] ?? false)) {
+            missingIngredients.push(primaryAlias);
+        }
+    }
+
+    return missingIngredients;
+}
 
 function onModalOpen(nameSlug: string): void {
     recipeModalSlug.value = nameSlug;
@@ -115,7 +126,7 @@ function onModalOpen(nameSlug: string): void {
 />
 
 <RecipeListGroup
-    v-if="filterActive"
+    v-if="filterActive && recipeGroups"
     title="Receptai, kuriems turi visus ingridientus"
     :recipes="recipeGroups['haveAllIngredients']"
     :isOpen="true"
@@ -123,7 +134,7 @@ function onModalOpen(nameSlug: string): void {
 />
 
 <RecipeListGroup
-    v-if="filterActive"
+    v-if="filterActive && recipeGroups"
     title="Receptai, kuriems trūksta tik kelių ingridientų"
     :recipes="recipeGroups['needAFewExtra']"
     :isOpen="true"

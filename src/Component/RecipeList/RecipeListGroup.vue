@@ -33,7 +33,7 @@ const recipeCount = computed(() => Object.keys(props.recipes).length);
             <RouterLink
                 :to="{name: 'recipe', params: {nameSlug: slug}}"
                 class="card-link"
-                @click.prevent="$emit('openModal', slug)"
+                @click.prevent="$emit('openModal', slug as string)"
                 data-bs-toggle="modal"
                 data-bs-target="#recipeModal"
             >

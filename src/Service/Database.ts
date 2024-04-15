@@ -1,7 +1,7 @@
 import databaseJson from '@/Asset/output.prod.min.json';
 import { sortByKey } from '@/Helper/ObjectHelper';
 
-type Ingredient = {
+export type Ingredient = {
     text: string,
     /** A shop link for this specific instance of ingredient, for this specific recipe */
     link?: string,
@@ -18,24 +18,33 @@ export type Recipe = {
     primaryCategorySlug: string,
     description: string | null,
     ingredients: Ingredient[],
-    missingIngredients?: Ingredient[],
+    missingIngredients?: string[],
     steps: string[],
     image: string,
     flag: string | null,
+    filterableIngredientAliases?: {[primaryAlias: string]: boolean},
+    filterableIngredientCount?: number,
 }
 
 export type RecipeList = {[name: string]: Recipe};
 
-type FilterList = {[category: string]: {
-    [ingredient: string]: {
-        slug: string,
-        count: number,
-        isFlagFilter: boolean,
-    },
+export type FilterCategoryList = {[ingredient: string]: {
+    slug: string,
+    count: number,
+    isFlagFilter: boolean,
 }};
 
+type FilterList = {[category: string]: FilterCategoryList};
+
 let filters: FilterList;
-let filtersInitialized = false;
+let initialized = false;
+
+function initializeData(): void {
+    initializeFilters();
+    initializeRecipes();
+
+    initialized = true;
+}
 
 function initializeFilters(): void {
     const filtersData = {
@@ -50,7 +59,6 @@ function initializeFilters(): void {
     }
 
     filters = filtersSorted;
-    filtersInitialized = true;
 }
 
 function buildIngredientFilterList(): FilterList {
@@ -59,6 +67,10 @@ function buildIngredientFilterList(): FilterList {
 
     for (const [nameSlug, recipe] of Object.entries<Recipe>(databaseJson)) {
         for (const ingredient of recipe.ingredients) {
+            if (ingredient.nonFilterable) {
+                continue;
+            }
+
             if (ingredient.category === undefined || ingredient.primaryAlias === undefined) {
                 missingDataIngredients.push(`${ingredient.text} @ ${nameSlug}`);
 
@@ -105,13 +117,33 @@ function buildFlagFilterList(): FilterList {
 }
 
 export function getFilters(): typeof filters {
-    if (!filtersInitialized) {
-        initializeFilters();
+    if (!initialized) {
+        initializeData();
     }
 
     return filters;
 }
 
+function initializeRecipes(): void {
+    for (const [, recipe] of Object.entries<Recipe>(databaseJson)) {
+        recipe.filterableIngredientAliases = {};
+
+        for (const ingredient of recipe.ingredients) {
+            if (ingredient.nonFilterable) {
+                continue;
+            }
+
+            recipe.filterableIngredientAliases[ingredient.primaryAlias] = true;
+        }
+
+        recipe.filterableIngredientCount = Object.keys(recipe.filterableIngredientAliases).length;
+    }
+}
+
 export function getRecipes(): RecipeList {
+    if (!initialized) {
+        initializeData();
+    }
+
     return databaseJson;
 }
