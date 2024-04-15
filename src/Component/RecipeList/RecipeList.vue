@@ -78,7 +78,7 @@ const recipeGroups = computed(() => {
 
     const listHaveAllIngredients: RecipeList = {};
     const listNeedAFewExtra: RecipeList = {};
-    // const listNeedAllSelected: RecipeList = {}; // TODO implement list of recipes that need all selected ingredients
+    const listNeedAllSelected: RecipeList = {};
 
     for (const [nameSlug, recipe] of Object.entries(recipesFiltered.value)) {
         recipe.missingIngredients = getRecipeMissingIngredients(recipe);
@@ -91,11 +91,16 @@ const recipeGroups = computed(() => {
         ) {
             listNeedAFewExtra[nameSlug] = recipe;
         }
+
+        if (doesRecipeNeedAllSelectedIngredients(recipe)) {
+            listNeedAllSelected[nameSlug] = recipe;
+        }
     }
 
     return {
         'haveAllIngredients': listHaveAllIngredients,
         'needAFewExtra': listNeedAFewExtra,
+        'needAllSelected': listNeedAllSelected,
     };
 });
 
@@ -110,6 +115,20 @@ function getRecipeMissingIngredients(recipe: Recipe): string[] {
     }
 
     return missingIngredients;
+}
+
+function doesRecipeNeedAllSelectedIngredients(recipe: Recipe): boolean {
+    for (const [primaryAlias, needed] of Object.entries(filterState.value.ingredients)) {
+        if (!needed) {
+            continue;
+        }
+
+        if (!(primaryAlias in recipe.filterableIngredientAliases)) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 function onModalOpen(nameSlug: string): void {
@@ -137,6 +156,14 @@ function onModalOpen(nameSlug: string): void {
     v-if="filterActive && recipeGroups"
     title="Receptai, kuriems trūksta tik kelių ingridientų"
     :recipes="recipeGroups['needAFewExtra']"
+    :isOpen="true"
+    @openModal="onModalOpen"
+/>
+
+<RecipeListGroup
+    v-if="filterActive && recipeGroups"
+    title="Receptai, kuriems reikia visų pasirinktų ingridientų"
+    :recipes="recipeGroups['needAllSelected']"
     :isOpen="true"
     @openModal="onModalOpen"
 />
