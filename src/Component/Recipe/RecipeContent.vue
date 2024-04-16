@@ -58,8 +58,35 @@ const breakpointClass = props.insideModal ? 'col-lg-6' : 'col-md-6';
                     >
                 </td>
                 <td>
-                    <span :title="ingredient.primaryAlias">{{ ingredient.text }}</span>
-                    <!-- TODO add shop link -->
+                    <span :title="ingredient.primaryAlias">
+                        {{ ingredient.text }}
+                    </span>
+
+                    <span
+                        class="shop-link-container"
+                        v-if="ingredient.link"
+                    >
+                        <a
+                            :href="ingredient.link"
+                            target="_blank"
+                            :title="ingredient.text"
+                        >
+                            <FAIcon icon="fa-cart-shopping"/>
+                        </a>
+                    </span>
+
+                    <span
+                        class="shop-link-container"
+                        v-if="ingredient.primaryAliasLink"
+                    >
+                        <a
+                            :href="ingredient.primaryAliasLink"
+                            target="_blank"
+                            :title="ingredient.primaryAlias"
+                        >
+                            <FAIcon icon="fa-cart-plus"/>
+                        </a>
+                    </span>
                 </td>
             </tr>
             </tbody>
@@ -94,6 +121,22 @@ img {
 
 .ingredient-checkbox-cell {
     width: 0;
+}
+
+.shop-link-container {
+    margin-left: 1em;
+}
+
+.shop-link-container a {
+    color: initial;
+    transition: 0.3s;
+}
+
+.shop-link-container a:hover {
+    display: inline-block;
+    opacity: 0.5;
+    transform: scale(1.1);
+    transition: 0.3s;
 }
 
 /*

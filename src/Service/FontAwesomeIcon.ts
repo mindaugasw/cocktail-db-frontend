@@ -6,12 +6,16 @@ import {
     faArrowUpRightFromSquare,
     faCaretLeft,
     faMartiniGlassCitrus,
+    faCartShopping,
+    faCartPlus,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
     faArrowUpRightFromSquare,
     faCaretLeft,
     faMartiniGlassCitrus,
+    faCartShopping,
+    faCartPlus,
 );
 
 export default FontAwesomeIcon;
