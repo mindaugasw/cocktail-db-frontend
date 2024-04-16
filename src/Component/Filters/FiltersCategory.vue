@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import type { State } from '@/Service/FilterManager'
 import type { FilterCategoryList } from '@/Service/Database';
+import { filterState, persistState } from '@/Service/FilterManager';
 
 defineProps<{
     categoryName: string,
     ingredients: FilterCategoryList,
     isOpen: boolean,
-    filterState: State,
 }>();
 
 defineEmits<{
     categoryToggle: [newStateOpen: boolean],
-    filtersChange: [],
 }>();
 </script>
 
@@ -35,7 +33,7 @@ defineEmits<{
             :id="`filter-${ingredient.slug}`"
             :disabled="!filterState.enabled"
             v-model="filterState.ingredients[name]"
-            @change="$emit('filtersChange')"
+            @change="persistState"
         >
         <label class="form-check-label" :for="`filter-${ingredient.slug}`">
             {{ name }} ({{ ingredient.count }})

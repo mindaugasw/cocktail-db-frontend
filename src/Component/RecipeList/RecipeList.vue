@@ -123,7 +123,7 @@ function doesRecipeNeedAllSelectedIngredients(recipe: Recipe): boolean {
             continue;
         }
 
-        if (!(primaryAlias in recipe.filterableIngredientAliases)) {
+        if (!(primaryAlias in (recipe.filterableIngredientAliases ?? []))) {
             return false;
         }
     }

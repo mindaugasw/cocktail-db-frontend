@@ -89,7 +89,6 @@ function resetFilters() {
                     :isOpen="filterState['categoriesOpen'][category] ?? false"
                     :filterState="filterState"
                     @categoryToggle="(newStateOpen) => onCategoryToggle(category, newStateOpen)"
-                    @filtersChange="persistState"
                 />
             </div>
         </div>

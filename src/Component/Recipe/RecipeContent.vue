@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Recipe } from '@/Service/Database';
 import { isDevMode } from '@/Helper/EnvironmentHelper';
+import { filterState, persistState } from '@/Service/FilterManager';
 
 const props = defineProps<{
     recipe: Recipe,
@@ -48,6 +49,14 @@ const breakpointClass = props.insideModal ? 'col-lg-6' : 'col-md-6';
                 v-for="ingredient in recipe.ingredients"
                 :key="ingredient.text"
             >
+                <td class="ingredient-checkbox-cell">
+                    <input
+                        type="checkbox"
+                        v-if="!ingredient.nonFilterable"
+                        v-model="filterState.ingredients[ingredient.primaryAlias]"
+                        @change="persistState"
+                    >
+                </td>
                 <td>
                     <span :title="ingredient.primaryAlias">{{ ingredient.text }}</span>
                     <!-- TODO add shop link -->
@@ -81,6 +90,10 @@ img {
     max-width: 100%;
     border-radius: 25px;
     object-fit: scale-down;
+}
+
+.ingredient-checkbox-cell {
+    width: 0;
 }
 
 /*
