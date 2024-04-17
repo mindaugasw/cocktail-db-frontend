@@ -55,6 +55,4 @@ export function resetState(): void {
     filterState.value = getDefaultState();
 }
 
-// TODO next: make existing code work with import {filterState} instead of importint {getState()}
-// And then start implementing actual filtering
 export const filterState = ref<State>(getState());

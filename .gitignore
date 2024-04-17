@@ -18,7 +18,6 @@ coverage
 *.local
 
 # Editor directories and files
-# TODO
 .vscode/*
 !.vscode/extensions.json
 
