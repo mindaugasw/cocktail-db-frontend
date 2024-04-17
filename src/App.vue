@@ -6,8 +6,10 @@ import { isDevMode } from '@/Helper/EnvironmentHelper';
 <template>
 <div class="container">
     <h1>
-        <FAIcon icon="martini-glass-citrus"/>
-        Kokteilių receptai
+        <RouterLink :to="{name: 'home'}">
+            <FAIcon icon="martini-glass-citrus"/>
+            Kokteilių receptai
+        </RouterLink>
     </h1>
 
     <RouterView/>
@@ -20,5 +22,12 @@ import { isDevMode } from '@/Helper/EnvironmentHelper';
 h1 {
     margin-top: 1em;
     margin-bottom: 1em;
+    color: initial;
+    text-decoration: none;
+}
+
+h1 a {
+    color: initial;
+    text-decoration: none;
 }
 </style>

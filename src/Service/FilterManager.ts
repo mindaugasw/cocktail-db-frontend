@@ -13,13 +13,7 @@ const storageKey = 'app.filters_state';
 function getDefaultState(): State {
     return {
         enabled: true,
-        categoriesOpen: {
-            'Kategorija': true,
-            'Alkoholis': true,
-            'Sirupas / likeris': true,
-            'Kiti gėrimai': true,
-            'Dažniausi ingridientai': true,
-        },
+        categoriesOpen: {},
         ingredients: {},
         version: getBuildVersion(),
     };

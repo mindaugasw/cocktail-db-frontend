@@ -7,7 +7,7 @@ const filters = Database.getFilters();
 const filtersGrouping = [
     ['Kategorija', 'Alkoholis', 'Kitas alkoholis'],
     ['Sirupas / likeris', 'Kiti sirupai / likeriai'],
-    ['Kiti gėrimai'],
+    ['Sultys', 'Kiti gėrimai'],
     ['Dažniausi ingridientai', 'Kiti ingridientai'],
 ];
 
@@ -86,7 +86,7 @@ function resetFilters() {
                 <FiltersCategory
                     :categoryName="category"
                     :ingredients="filters[category]"
-                    :isOpen="filterState['categoriesOpen'][category] ?? false"
+                    :isOpen="filterState['categoriesOpen'][category] ?? true"
                     :filterState="filterState"
                     @categoryToggle="(newStateOpen) => onCategoryToggle(category, newStateOpen)"
                 />
