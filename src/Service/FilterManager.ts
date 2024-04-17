@@ -13,7 +13,11 @@ const storageKey = 'app.filters_state';
 function getDefaultState(): State {
     return {
         enabled: true,
-        categoriesOpen: {},
+        categoriesOpen: {
+            'Kitas alkoholis': false,
+            'Kiti sirupai / likeriai': false,
+            'Kiti ingridientai': false,
+        },
         ingredients: {},
         version: getBuildVersion(),
     };
