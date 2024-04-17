@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { RecipeList } from '@/Service/Database';
+import { appBasePath } from '@/Helper/EnvironmentHelper';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -39,7 +40,7 @@ const recipeCount = computed(() => Object.keys(props.recipes).length);
             >
                 <div class="card h-100">
                     <img
-                        :src="`/images/recipe/${recipe.image}`"
+                        :src="`${appBasePath}/images/recipe/${recipe.image}`"
                         :alt="`Receptas ${recipe.name}`"
                         class="card-image card-img-top"
                     />

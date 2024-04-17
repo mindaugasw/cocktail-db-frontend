@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Recipe } from '@/Service/Database';
-import { isDevMode } from '@/Helper/EnvironmentHelper';
+import { appBasePath, isDevMode } from '@/Helper/EnvironmentHelper';
 import { filterState, persistState } from '@/Service/FilterManager';
 
 const props = defineProps<{
@@ -18,7 +18,7 @@ const breakpointClass = props.insideModal ? 'col-lg-6' : 'col-md-6';
 <div class="row">
     <div class="image-container col-12" :class="breakpointClass">
         <img
-            :src="`/images/recipe/${recipe.image}`"
+            :src="`${appBasePath}/images/recipe/${recipe.image}`"
             :alt="`Receptas ${recipe.name}`"
         />
     </div>
